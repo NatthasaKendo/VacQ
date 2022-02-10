@@ -3,13 +3,14 @@ const dotenv = require("dotenv");
 const hospitals = require("./routes/hospitals");
 const connectDB = require('./config/db');
 
-//connect to mongoDB
-connectDB();
-
 //Load env vars
 dotenv.config({ path: "./config/config.env" });
 
+//connect to mongoDB
+connectDB();
+// instantiate express
 const app = express();
+app.use(express.json());
 
 app.use("/api/v1/hospitals", hospitals);
 
