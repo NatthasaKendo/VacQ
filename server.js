@@ -1,7 +1,11 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const hospitals = require("./routes/hospitals");
+const cookieParser = require("cookie-parser");
 const connectDB = require('./config/db');
+
+//* Routes file
+const hospitals = require("./routes/hospitals");
+const auth = require("./routes/auth");
 
 //Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -13,6 +17,10 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/v1/hospitals", hospitals);
+app.use("/api/v1/auth", auth);
+
+//* Cookie parser
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   //   res.send("<h1>Hello from express</h1>");
