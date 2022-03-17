@@ -5,19 +5,21 @@ const connectDB = require('./config/db');
 
 //* Routes file
 const hospitals = require("./routes/hospitals");
+const appointments = require("./routes/appointments");
 const auth = require("./routes/auth");
 
-//Load env vars
+//* Load env vars
 dotenv.config({ path: "./config/config.env" });
 
-//connect to mongoDB
+//* connect to mongoDB
 connectDB();
-// instantiate express
+//* instantiate express
 const app = express();
 app.use(express.json());
 
 app.use("/api/v1/hospitals", hospitals);
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/appointments", appointments);
 
 //* Cookie parser
 app.use(cookieParser());
