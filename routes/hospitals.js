@@ -5,6 +5,7 @@ const {
   deleteHospital,
   createHospital,
   updateHospital,
+  getvaccenters,
 } = require("../controller/hospitals");
 
 //* Include other resource routers
@@ -20,6 +21,9 @@ router.use("/:hospitalId/appointments", appointmentRouter);
 // const app = express();
 
 router.route("/").get(getHospitals).post(protect, authorize("admin"), createHospital);
+
+router.route('/vacCenters').get(getvaccenters);
+
 router
   .route("/:id")
   .get(getHospital)
