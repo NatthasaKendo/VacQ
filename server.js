@@ -8,9 +8,31 @@ const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
 const cors = require("cors");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
 
 //* instantiate express
 const app = express();
+
+//* Swagger set up
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Library API",
+      version: "1.0.0",
+      description: "A simple Express VacQ API",
+    },
+    servers: [{
+      url: 'http://localhost:5000/api/v1'
+    }],
+  },
+  apis: ["./routes/*.js"]
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+
 app.use(express.json());
 
 //* Sanitize data
@@ -41,7 +63,9 @@ const appointments = require("./routes/appointments");
 const auth = require("./routes/auth");
 
 //* Load env vars
-dotenv.config({ path: "./config/config.env" });
+dotenv.config({
+  path: "./config/config.env"
+});
 
 //* connect to mongoDB
 connectDB();
@@ -61,7 +85,12 @@ app.get("/", (req, res) => {
   //   res.json({ name: "Brad" });
   //   res.sendStatus(400);
   //   res.status(400).json({ success: false });
-  res.status(200).json({ success: true, data: { id: 1 } });
+  res.status(200).json({
+    success: true,
+    data: {
+      id: 1
+    }
+  });
 });
 
 console.log(process.env.PORT)
